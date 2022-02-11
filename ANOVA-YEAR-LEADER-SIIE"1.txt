@@ -1,0 +1,50 @@
+ANOVA Con los datos SIIE21
+
+> show(Year.Leader)
+       D A  L
+y1314  3 1  8
+y1415  0 7  5
+y1516  3 5  9
+y1617  3 6  8
+y1718  1 1 12
+y1819 10 5  7
+y1920  8 8  8
+> Year.Leader.melt <- melt(Year.Leader)
+No id variables; using all as measure variables
+> summary(Year.Leader.melt)
+ variable     value       
+ D:7      Min.   : 0.000  
+ A:7      1st Qu.: 3.000  
+ L:7      Median : 6.000  
+          Mean   : 5.619  
+          3rd Qu.: 8.000  
+          Max.   :12.000  
+> Year.Leader.lmmodel <- lm(value ~ variable, data = Year.Leader.melt)
+> summary(Year.Leader.lmmodel)
+
+Call:
+lm(formula = value ~ variable, data = Year.Leader.melt)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-4.0000 -1.1429 -0.1429  1.2857  6.0000 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)   
+(Intercept)   4.0000     1.0994   3.638  0.00188 **
+variableA     0.7143     1.5547   0.459  0.65143   
+variableL     4.1429     1.5547   2.665  0.01579 * 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 2.909 on 18 degrees of freedom
+Multiple R-squared:  0.3108,	Adjusted R-squared:  0.2342 
+F-statistic: 4.058 on 2 and 18 DF,  p-value: 0.03509
+
+> Year.Leader.aov <- aov(value ~ variable, data = Year.Leader.melt)
+> summary(Year.Leader.aov)
+            Df Sum Sq Mean Sq F value Pr(>F)  
+variable     2  68.67   34.33   4.058 0.0351 *
+Residuals   18 152.29    8.46                 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1

@@ -90,6 +90,31 @@ t.test(Grade~Leader,n118.NO.CGrade.LeaderAD)
 # D-A  0.02367742 -0.6579991 0.70535390 0.9962488
 # L-A -0.52107730 -1.0944751 0.05232049 0.0829032
 # L-D -0.54475472 -1.1600371 0.07052771 0.0937293
+
+
+View(Scrum.R.Year)
+Scrum.R.Year.melt <- melt(Scrum.R.Year,value.name="MSE",variable.name = "Year")
+head(Scrum.R.Year.melt )
+#1 DBA.1314 0.000
+#2 DBA.1314 0.021
+#3 DBA.1314 0.057
+#4 DBA.1314 0.001
+#5 DBA.1314 0.004
+#6 DBA.1314 0.003
+Scrum.R.Year.lm <- lm(MSE~Year,Scrum.R.Year.melt)
+Scrum.R.Year.aov <- aov(Scrum.R.Year.lm)
+summary(Scrum.R.Year.aov)
+#Df Sum Sq   Mean Sq F value Pr(>F)
+#Year          6 0.0000 0.0000001       0      1
+#Residuals   357 0.1488 0.0004169
+Scrum.R.Year.tukey <- TukeyHSD(Scrum.R.Year.aov)
+plot(Scrum.R.Year.tukey)
+Scrum.R.Year.kw <- kruskal.test(MSE~Year,Scrum.R.Year.melt)
+Scrum.R.Year.kw
+#Kruskal-Wallis rank sum test
+#data:  MSE by Year
+#Kruskal-Wallis chi-squared = 7.3339, df = 6, p-value = 0.2911
+
 FullScrumADL <- read.csv("FullScrumADL.csv", row.names=1)
 FullScrumADL.lm<-lm(EC~Leader,FullScrumADL)
 FullScrumADL.aov <- aov(FullScrumADL.lm)
